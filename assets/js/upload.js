@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let isOk = true;
 
     //URLs
-    const getUrl = (path) => window.location.protocol + "//" + window.location.host + path;
+    const getUrl = (path) => window.location.protocol + "//" +window.location.host + "/certificados"+ path;
 
     const uploadUrl = getUrl('/controllers/UploadController.php');
     const uploadData =  getUrl('/controllers/UploadController.php');
@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     text: "Error al subir CSV "+err
                 })
             });
-        getCsv(url);
+        getCsv(getUrl("/assets/csv/"+fileName));
     }
 
 

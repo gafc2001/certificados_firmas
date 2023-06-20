@@ -19,7 +19,39 @@ include_once('../controllers/Session.php');
         <div class="toast-container" id="toast-container"  style="position: fixed; min-height: 200px; top:70px;right:10px;">
     
         </div>
-        <main class="my-5">
+
+        <div class="container col-5 mt-2">
+            <h4>Cabeceras modelo</h4>
+            <div class="alert alert-info fs-6">
+                <i class="fa fa-info"></i>
+                Los Cursos disponibles son 
+                <ul>
+                    <li>IOT</i>
+                    <li>CIBERSEGURIDAD</i>
+                    <li>NETWORKING</i>
+                    <li>GETCONNECTED</i>
+                    <li>PYTHON</i>
+                    <li>EMPRENDIMIENTO</i>
+                </ul>
+            </div>
+            <table class="table table-border">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th>REGISTRO</th>
+                        <th>CURSO</th>
+                        <th>ALUMNO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>IOT</td>
+                        <td>1111111</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <main class="my-5 pb-5">
             <div class="container content">
                 <h1>Subir alumnos</h1>
                 <form class="form needs-validation" id="form" method="post" action="./../controllers/UploadController.php" enctype="multipart/form">

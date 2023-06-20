@@ -29,13 +29,13 @@
     try{
         $pageCounnt = $pdf->setSourceFile($file); 
     }catch(Exception $e){
-        header("Location:index.php?$e->getMessage()");
+        header("Location:index.php?".$e->getMessage());
     }
     $tplIdx = $pdf->importPage(1); 
     $pdf->useTemplate($tplIdx); 
     $x = $location[$result_code['certify_id']][0];
     $y = $location[$result_code['certify_id']][1];
-    $pdf->Image('assets/firma.png', 180, 152, 50, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+    $pdf->Image('assets/firma.png', $x, $y, $w=50, $h=0, $type='PNG', $link='');
     $pdf->Output('assets/VYWQ_15_12_2020.pdf', 'I'); 
     unlink($file);
 ?>
