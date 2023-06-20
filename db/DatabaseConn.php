@@ -1,9 +1,9 @@
 <?php 
 class Connection extends mysqli{
-    private $host = 'fdb21.awardspace.net';
-    private $username = '2738101_asistencia';
-    private $password = 'root@123negreiros';
-    private $schema = '2738101_asistencia';
+    private $host = 'localhost';
+    private $username = 'root';
+    private $password = '';
+    private $schema = 'certificados';
     private $port = 3306;
 
     public function __construct($file = 'my_settings.ini'){

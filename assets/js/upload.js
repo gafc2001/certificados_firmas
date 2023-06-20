@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const labelInput = document.querySelector('#label-input');
     const fileInput = document.querySelector('#fileinput');
     const form = document.getElementById('form');
-    
+    let url = "";
     let file = document.getElementById("fileinput");
     let data = "";
     let fileName = "";
@@ -42,13 +42,9 @@ window.addEventListener('DOMContentLoaded', () => {
         formData.append('file', file.files[0]);
         formData.append('action', 'upload');
         boxCsv.style.display = "block";
-        // console.log(uploadUrl);
+        
         await axios.post(uploadUrl, formData,
             {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
                 onUploadProgress: (progressEvent) => {
                     let progress = Math.round(progressEvent.loaded * 100 / progressEvent.total);
                     barCsv.style.width = progress + "%";
