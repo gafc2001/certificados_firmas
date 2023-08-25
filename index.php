@@ -2,6 +2,7 @@
   include_once(__DIR__ . '/db/DatabaseConn.php');
   $db = new Connection();
   $result = $db->query("SELECT * FROM certificates");
+  $profesores = $db->query("SELECT * FROM users_certificados WHERE estado = 1 AND role IN ('ADMIN','PROFESOR')");
   $error = "";
   if(isset($_GET['error'])){
     $errors = $_GET['error'];
@@ -64,11 +65,21 @@
     
     
       <!-- Certificate input -->
-      <div class="input-group">
+      <div class="input-group mb-3">
         <i class="fa fa-list input-group-text"></i>
         <select name="certificate" id="" required class="custom-select">
           <?php while($certificate = $result->fetch_assoc()):?>
           <option value="<?php echo $certificate['id']?>"><?php echo $certificate['name']?></option>
+          <?php endwhile ?>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <i class="fa fa-user input-group-text"></i>
+        <select name="profesor" id="" required class="custom-select">
+          
+          <?php while($profesor = $profesores->fetch_assoc()):?>
+          <option value="<?php echo $profesor['id']?>"><?php echo $profesor['nombres']?></option>
           <?php endwhile ?>
         </select>
       </div>
