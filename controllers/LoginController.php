@@ -16,7 +16,7 @@ class LoginController{
         $password = $this->request['password'];
         $sql = "SELECT * FROM users_certificados 
                 WHERE senati_id = '$username' and passwd = '$password'
-                AND role IN ('ADMIN','PROFESOR')";
+                AND role IN ('ADMIN','PROFESOR') AND estado = 1";
         $result = $this->db->query($sql);
         if($result->num_rows != 1){
             header("Location: ../admin/login.php?error");
