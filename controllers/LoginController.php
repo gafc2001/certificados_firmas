@@ -14,13 +14,17 @@ class LoginController{
     public function login(){
         $username = $this->request['username'];
         $password = $this->request['password'];
-        $sql = "SELECT * FROM users_certificados where senati_id = '$username' and passwd = '$password'";
+        $sql = "SELECT * FROM users_certificados 
+                WHERE senati_id = '$username' and passwd = '$password'
+                AND role IN ('ADMIN','PROFESOR')";
         $result = $this->db->query($sql);
         if($result->num_rows != 1){
             header("Location: ../admin/login.php?error");
         }
         $fetch = $result->fetch_assoc();
         $_SESSION['username'] = $fetch['senati_id'];
+        $_SESSION['role'] = $fetch['role'];
+        $_SESSION['user_id'] = $fetch['id'];
         header("Location: ../admin/");
     }
     public function logout(){

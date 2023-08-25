@@ -1,4 +1,5 @@
 <?php
+require_once('./Session.php');
 include_once('../db/DatabaseConn.php');
 include_once('./../Shuchkin/SimpleXLSXGen.php');
 class CodeController{
@@ -20,8 +21,8 @@ class CodeController{
     }
 
     function saveCodes(){
-        $sql = "INSERT INTO codes(certify_id,sign_code,is_used,created_at) " 
-        ." VALUES(?,?,?,?)";
+        $sql = "INSERT INTO codes(user_id,certify_id,sign_code,is_used,created_at) " 
+        ." VALUES(?,?,?,?,?)";
         $qty = $this->request['qty'];
         $certificate = $this->request['certificate'];
         for($i = 0; $i < $qty;$i++){
@@ -29,7 +30,7 @@ class CodeController{
             $code = $this->generateCode();
             $date = date("Y-m-d");
             $is_used = 0;
-            $stmt->bind_param('isis',$certificate,$code,$is_used,$date);
+            $stmt->bind_param('sisis',$_SESSION["id"],$certificate,$code,$is_used,$date);
             if(!$stmt->execute()){
                 echo "Upps";
                 break;
@@ -48,29 +49,60 @@ class CodeController{
     }
     
     function download(){
-        $sql = "SELECT u.senati_id,ce.name,c.sign_code FROM codes c".
-               " INNER JOIN certificates ce ON ce.id = c.certify_id".
-               " LEFT JOIN users_certificados u ON c.user_id = u.id".
-               " WHERE c.is_used = 0";
-        $result = $this->db->query($sql);
-        $data = $this->populateData($result);
-        $xlsx = Shuchkin\SimpleXLSXGen::fromArray( $data );
-        $xlsx->downloadAs('books.xlsx');
-    }
-    function populateData($result){
-        $columns = ["Codigo Alumno","Curso","Codigo"];
-        $data = [$columns];
+        ini_set('display_errors', '1');
+        ini_set('display_startup_errors', '1');
+        error_reporting(E_ALL);
+        $user_id = $_SESSION["user_id"];
+        
+        
+        $sql = "SELECT u.senati_id,ce.name,c.sign_code FROM codes c
+                INNER JOIN certificates ce ON ce.id = c.certify_id
+                LEFT JOIN users_certificados u ON c.user_id = u.id
+                WHERE c.is_used = 0 AND user_id = '{$user_id}'";
 
+        $result = $this->db->query($sql);
+        $html = $this->htmlExcel($result);
+        $date = date("Y_m_d_H_i_s");
+        header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+        header("Content-Disposition: attachment; filename=codigos_{$date}_.xls");  //File name extension was wrong
+        header("Cache-Control: max-age=0");
+        echo $html;
+        exit;
+    }
+    function htmlExcel($result){
+        $tbody = "";
         while($row = $result->fetch_assoc()){
             if(is_null($row['senati_id'])){
                 $row['senati_id'] = "alumno no presente";
             }
-            array_push($data,$row);
+            $senati_id = $row["senati_id"];
+            $name = $row["name"];
+            $codigo = $row["sign_code"];
+            $tbody.= "
+            <tr>
+                <td>{$senati_id}</td>
+                <td>{$name}</td>
+                <td>{$codigo}</td>
+            </tr>
+            ";
         }
-        return $data;
+        $html = "
+            <table>
+                <thead>
+                    <tr>
+                        <td>Codigo Alumno</td>
+                        <td>Curso</td>
+                        <td>Codigo</td>
+                    </tr>
+                </thead>
+                <tbody>{$tbody}</tbody>
+            </table>
+        ";
+        return $html;
     }
     function truncateCodes(){
-        $result = $this->db->query("TRUNCATE TABLE codes");
+        $user_id = $_SESSION["id"];
+        $result = $this->db->query("DELETE FROM codes WHERE user_id = {$user_id}");
         header("Location: ../admin/");
     }
     function execute(){

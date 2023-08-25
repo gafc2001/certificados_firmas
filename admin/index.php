@@ -2,11 +2,14 @@
 include_once('../controllers/Session.php');
 include_once('../db/DatabaseConn.php');
 $db = new Connection();
-$is_available = isset($_GET['code'])?"WHERE is_used =".$_GET['code']:"";
-$sql = "SELECT co.*,c.name,u.senati_id FROM codes co".
-       " INNER JOIN certificates c ON co.certify_id = c.id ".
-       " LEFT JOIN users_certificados u on u.id = co.user_id "
-       .$is_available;
+$is_available = isset($_GET['code'])?"AND is_used =".$_GET['code']:"";
+$user_id = $_SESSION["user_id"];
+$sql = "SELECT co.*,c.name,u.senati_id FROM codes co
+        INNER JOIN certificates c ON co.certify_id = c.id
+        LEFT JOIN users_certificados u on u.id = co.user_id
+        WHERE 1 {$is_available}
+        AND co.user_id = {$user_id}";
+
 $results = $db->query($sql);
 $certificates = $db->query("SELECT * FROM certificates");
 ?>

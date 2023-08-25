@@ -2,7 +2,7 @@
 class Connection extends mysqli{
     private $host = 'localhost';
     private $username = 'root';
-    private $password = '';
+    private $password = '$pth6fuX%dG1M$#MJ*mr';
     private $schema = 'certificados';
     private $port = 3306;
 
