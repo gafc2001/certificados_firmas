@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('./Session.php');
 include_once('../db/DatabaseConn.php');
 include_once('./../Shuchkin/SimpleXLSXGen.php');
@@ -82,6 +83,53 @@ class ProfesoresController{
             "message" => "Se desactivo al profesor",
             "status" => true,
         ));
+    }
+    public function actualizarFirma(){
+        $idProfesor = $_SESSION['user_id'];
+        $username = $_SESSION['username'];
+        $dir = "./../assets/firmas/";
+        $filename = $username. "." . pathinfo(basename( $_FILES["firma_file"]["name"]),PATHINFO_EXTENSION );
+        $target_dir = $dir . $filename;
+
+        if (!move_uploaded_file($_FILES["firma_file"]["tmp_name"], $target_dir)) {
+            echo json_encode(array(
+                "message" => "Error subir la firma",
+                "status" => false,
+            ));
+            return;
+        }
+
+        $query = "UPDATE users_certificados 
+                    SET firma_profesor = ?
+                    WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss',
+            $filename,
+            $idProfesor,
+        );
+
+        if(!$stmt->execute()){
+            echo json_encode(array(
+                "message" => "Error al actualizar la firma",
+                "error" => $this->db->error,
+                "error2" => json_encode(error_get_last()),
+                "status" => false,
+                "params" => array(
+                    "filename" => $filename,
+                    "id_profesor" => $idProfesor,
+                )
+            ));
+            return;
+        }
+        echo json_encode(array(
+            "message" => "Se actualizo la firma",
+            "status" => true,
+            "params" => array(
+                "filename" => $filename,
+                "id_profesor" => $idProfesor,
+            )
+        ));
+
     }
     function execute(){
         $method = $_SERVER['REQUEST_METHOD'];

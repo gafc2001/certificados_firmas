@@ -8,10 +8,11 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
                     <a href="./" class="nav-link active">Codigos <i class="fas fa-key"></i></a>
+                    <a href="./firmas.php" class="nav-link active">Firma <i class="fas fa-signature"></i></a>
                     <a href="./upload.php" class="nav-link active">Subir archivos <i class="fas fa-file"></i></a>
                     <a href="./../controllers/CodesController.php?action=download" class="nav-link active">Descargar codigos <i class="fa fa-download"></i></a>
                     <?php if($_SESSION["role"] === "ADMIN"):?>
-                    <a href="./profesores.php" class="nav-link active">Profesores <i class="fas fa-file"></i></a>
+                    <a href="./profesores.php" class="nav-link active">Profesores <i class="fas fa-user"></i></a>
                     <?php endif?>
                     <a href="./../controllers/LoginController.php?signout" class="nav-link active">Cerrar Sesion <i class="fas fa-sign-out-alt"></i></a>
                 </div>
