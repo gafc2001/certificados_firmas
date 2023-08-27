@@ -2,7 +2,9 @@
   include_once(__DIR__ . '/db/DatabaseConn.php');
   $db = new Connection();
   $result = $db->query("SELECT * FROM certificates");
-  $profesores = $db->query("SELECT * FROM users_certificados WHERE estado = 1 AND role IN ('ADMIN','PROFESOR')");
+  $profesores = $db->query("SELECT * FROM users_certificados
+                            WHERE estado = 1 AND role IN ('ADMIN','PROFESOR') 
+                            AND firma_profesor != ''");
   $error = "";
   if(isset($_GET['error'])){
     $errors = $_GET['error'];

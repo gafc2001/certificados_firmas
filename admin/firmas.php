@@ -10,6 +10,9 @@ $username = $_SESSION["username"];
 $sql = "SELECT firma_profesor FROM users_certificados WHERE senati_id = '$username'";
 $results = $db->query($sql);
 $firma = $results->fetch_assoc()["firma_profesor"];
+
+
+$certificados = $db->query("SELECT * FROM certificates");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,10 +46,18 @@ $firma = $results->fetch_assoc()["firma_profesor"];
                     <div class="row">
                         <div class="col-12 my-5">
                             <img src="./../assets/firmas/<?= $firma?>" alt="firma" width="300">
+                            <input type="hidden" id="firma_ruta" value="<?= $firma?>">
+                        </div>
+                        <!--<div class="col-4 mb-3">
+                            <select id="certificado" required class="form-control">
+                                <?php while($certificate = $certificados->fetch_assoc()):?>
+                                <option value="<?php echo $certificate['id']?>"><?php echo $certificate['name']?></option>
+                                <?php endwhile ?>
+                            </select>
                         </div>
                         <div class="col-4 mb-2">
-                            <a class="btn btn-primary" href="" target="_blank">Previsualizar Certificado</a>
-                        </div>
+                            <button class="btn btn-primary" id="previsualizar">Previsualizar Certificado</button>
+                        </div>-->
                     </div>
                     <?php else: ?>
                     <div class="alert alert-danger">

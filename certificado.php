@@ -19,7 +19,12 @@
     require_once("db/DatabaseConn.php");
 
     $db= new Connection();
-    $result = $db->query("SELECT * FROM codes where sign_code = '$code'");
+    // $result = $db->query("SELECT * FROM codes where sign_code = '$code'");
+    $result = $db->query("SELECT c.*,u.firma_profesor,ct.firma_x,ct.firma_y FROM codes c 
+                        INNER JOIN users_certificados u ON u.id = c.user_id
+                        INNER JOIN certificates ct ON ct.id = c.certify_id
+                        WHERE sign_code = '$code'
+                        ");
     $result_code = $result->fetch_assoc();
     $pdf = new FPDI($orientation = "L");
 
@@ -33,9 +38,10 @@
     }
     $tplIdx = $pdf->importPage(1); 
     $pdf->useTemplate($tplIdx); 
-    $x = $location[$result_code['certify_id']][0];
-    $y = $location[$result_code['certify_id']][1];
-    $pdf->Image('assets/firma.png', $x, $y, $w=50, $h=0, $type='PNG', $link='');
+    $x = $result_code['firma_x'];
+    $y = $result_code['firma_y'];
+    $firma = $result_code['firma_profesor'];
+    $pdf->Image("assets/firmas/{$firma}", $x, $y, $w=50, $h=0, $type='PNG', $link='');
     $pdf->Output('assets/VYWQ_15_12_2020.pdf', 'I'); 
     unlink($file);
 ?>

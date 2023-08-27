@@ -31,3 +31,20 @@ btnFirma.addEventListener("click",function(){
         }
     })
 })
+
+const btnPrevisualizar = document.querySelector("#previsualizar");
+
+if(!!btnPrevisualizar){
+    btnPrevisualizar.addEventListener("click",function(){
+        const certificado = document.querySelector("#certificado");
+        if(!certificado.value){
+            Swal.fire({
+                icon: "error",
+                title: 'Error',
+                text: "Seleccione el certificado de prueba",
+            })
+        }
+        const firmaRuta = document.getElementById("firma_ruta");
+        window.open(getUrl(`/admin/previsualizar_firma.php?certificado=${certificado.value}&firma_ruta=${firmaRuta.value}`));
+    })
+}

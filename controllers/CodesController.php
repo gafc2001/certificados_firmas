@@ -21,6 +21,7 @@ class CodeController{
     }
 
     function saveCodes(){
+        $id = $_SESSION['user_id'];
         $sql = "INSERT INTO codes(user_id,certify_id,sign_code,is_used,created_at) " 
         ." VALUES(?,?,?,?,?)";
         $qty = $this->request['qty'];
@@ -30,7 +31,7 @@ class CodeController{
             $code = $this->generateCode();
             $date = date("Y-m-d");
             $is_used = 0;
-            $stmt->bind_param('sisis',$_SESSION["id"],$certificate,$code,$is_used,$date);
+            $stmt->bind_param('sisis',$id,$certificate,$code,$is_used,$date);
             if(!$stmt->execute()){
                 echo "Upps";
                 break;
