@@ -20,7 +20,7 @@
 
     $db= new Connection();
     // $result = $db->query("SELECT * FROM codes where sign_code = '$code'");
-    $result = $db->query("SELECT c.*,u.firma_profesor,ct.firma_x,ct.firma_y FROM codes c 
+    $result = $db->query("SELECT c.*,u.firma_profesor,ct.firma_x,ct.firma_y,ct.firma_x_coordinador,ct.firma_y_coordinador FROM codes c 
                         INNER JOIN users_certificados u ON u.id = c.user_id
                         INNER JOIN certificates ct ON ct.id = c.certify_id
                         WHERE sign_code = '$code'
@@ -40,8 +40,11 @@
     $pdf->useTemplate($tplIdx); 
     $x = $result_code['firma_x'];
     $y = $result_code['firma_y'];
+    $y_coordinador = $result_code['firma_y_coordinador'];
+    $x_coordinador = $result_code['firma_x_coordinador'];
     $firma = $result_code['firma_profesor'];
     $pdf->Image("assets/firmas/{$firma}", $x, $y, $w=50, $h=0, $type='PNG', $link='');
+    $pdf->Image("assets/firmas/firma_coordinador.jpg", $x_coordinador,$y_coordinador, $w=40, $h=0, $type='JPG', $link='');
     $pdf->Output('assets/VYWQ_15_12_2020.pdf', 'I'); 
-    unlink($file);
+    // unlink($file);
 ?>
