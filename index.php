@@ -43,6 +43,12 @@
   <section class="mt-5">
     <form method="POST" action="save_pdf.php" class="login-form mt-3" enctype="multipart/form-data"
       style="height: 380px !important;">
+      <div>
+        <a href="./codigos.php" class="btn btn-info">
+          <i class="fa fa-search"></i>
+          Codigos
+        </a>
+      </div>
       <img class="logo" src="./assets/icon.png" alt="certificate" width="10">
       <!-- File input -->
       <div class="file-input text-center">

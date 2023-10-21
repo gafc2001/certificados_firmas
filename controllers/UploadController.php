@@ -4,6 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 header("Access-Control-Allow-Headers: *");
 header("Accept: application/json");
+session_start();
 class UploadController{
     private Connection $db;
     private $path;
@@ -61,13 +62,14 @@ class UploadController{
         }
         
         foreach($data as $row){
-            $stmt = $this->db->prepare("INSERT INTO codes(user_id,certify_id,sign_code,is_used,created_at) VALUES(?,?,?,?,?)");
+            $stmt = $this->db->prepare("INSERT INTO codes(profesor_id,user_id,certify_id,sign_code,is_used,created_at) VALUES(?,?,?,?,?,?)");
             $code = $this->generateCode();
             $user_id = $row['ALUMNO'];
             $certify_id = $row['CURSO'];
             $is_used = 0;
             $created_at = date('Y-m-d');
-            $stmt->bind_param("iisis",$user_id,$certify_id,$code,$is_used,$created_at);
+            $profesor_id = $_SESSION["user_id"];
+            $stmt->bind_param("iiisis",$profesor_id,$user_id,$certify_id,$code,$is_used,$created_at);
             $stmt->execute();
         }
         die(json_encode(["message" => "ok"]));

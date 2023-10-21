@@ -15,7 +15,8 @@ window.addEventListener('DOMContentLoaded', () => {
     let isOk = true;
 
     //URLs
-    const getUrl = (path) => window.location.protocol + "//" +window.location.host + "/certificados"+ path;
+    const getUrl = (path) => window.location.protocol + "//" +window.location.host + path;
+    // const getUrl = (path) => window.location.protocol + "//" +window.location.host + "/certificados"+ path;
 
     const uploadUrl = getUrl('/controllers/UploadController.php');
     const uploadData =  getUrl('/controllers/UploadController.php');

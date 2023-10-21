@@ -59,7 +59,7 @@ class CodeController{
         $sql = "SELECT u.senati_id,ce.name,c.sign_code FROM codes c
                 INNER JOIN certificates ce ON ce.id = c.certify_id
                 LEFT JOIN users_certificados u ON c.user_id = u.id
-                WHERE c.is_used = 0 AND user_id = '{$user_id}'";
+                WHERE c.is_used = 0 AND profesor_id = '{$user_id}'";
 
         $result = $this->db->query($sql);
         $html = $this->htmlExcel($result);
@@ -102,8 +102,8 @@ class CodeController{
         return $html;
     }
     function truncateCodes(){
-        $user_id = $_SESSION["id"];
-        $result = $this->db->query("DELETE FROM codes WHERE user_id = {$user_id}");
+        $profesor_id = $_SESSION["user_id"];
+        $result = $this->db->query("DELETE FROM codes WHERE profesor_id = {$profesor_id}");
         header("Location: ../admin/");
     }
     function execute(){

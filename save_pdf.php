@@ -11,7 +11,7 @@ $code = trim($_POST['code']);
 $certificate = $_POST['certificate'];
 $profesor = $_POST['profesor'];
 
-$result = $db->query("SELECT * FROM codes where sign_code = '$code' AND user_id = '{$profesor}'");
+$result = $db->query("SELECT * FROM codes where sign_code = '$code' AND profesor_id = '{$profesor}'");
 if($result->num_rows == 0){
     header("Location: index.php?error=not_exist");
     die();

@@ -8,7 +8,7 @@ $sql = "SELECT co.*,c.name,u.senati_id FROM codes co
         INNER JOIN certificates c ON co.certify_id = c.id
         LEFT JOIN users_certificados u on u.id = co.user_id
         WHERE 1 {$is_available}
-        AND co.user_id = {$user_id}";
+        AND co.profesor_id = {$user_id}";
 
 $results = $db->query($sql);
 $certificates = $db->query("SELECT * FROM certificates");
