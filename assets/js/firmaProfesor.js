@@ -27,7 +27,7 @@ btnFirma.addEventListener("click",function(){
             text: json.message,
         })
         if(json.status){
-            setTimeout(() => location.reload(),3000)      
+            location.reload()
         }
     })
 })

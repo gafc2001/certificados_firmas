@@ -179,6 +179,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 'success'
             );
         }
+        boxCsv.style.display = "none";
+        boxData.style.display = "none";
     }
     const showWarning = (resp) => {
         if(resp){

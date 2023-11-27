@@ -1,5 +1,15 @@
 <?php
 include_once('../controllers/Session.php');
+include_once('../db/DatabaseConn.php');
+if ($_SESSION["role"] != "ADMIN") {
+    header("index.php");
+}
+
+$db = new Connection();
+$username = $_SESSION["username"];
+$sql = "SELECT firma_profesor FROM users_certificados WHERE senati_id = '$username'";
+$results = $db->query($sql);
+$firma = $results->fetch_assoc()["firma_profesor"];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,8 +29,16 @@ include_once('../controllers/Session.php');
         <div class="toast-container" id="toast-container"  style="position: fixed; min-height: 200px; top:70px;right:10px;">
     
         </div>
-
+        
         <div class="container col-5 mt-2">
+            <?php if(!$firma): ?>
+            <div class="alert alert-danger">
+                Favor de subir su firma primero
+                <a href="./firmas.php" class="text-danger">Ingresar firma</a>
+            </div>
+            <?php 
+            exit;
+            endif?>
             <h4>Cabeceras modelo</h4>
             <div class="alert alert-info fs-6">
                 <i class="fa fa-info"></i>
@@ -33,6 +51,9 @@ include_once('../controllers/Session.php');
                     <li>PYTHON</i>
                     <li>EMPRENDIMIENTO</i>
                 </ul>
+            </div>
+            <div>
+                <a href="./../assets/plantilla.csv" class="btn btn-primary mb-2" download="">Descargar plantilla</a>
             </div>
             <table class="table table-border">
                 <thead class="bg-primary text-light">

@@ -135,7 +135,6 @@ class UploadController{
                 array_push($errors,$error);
             }
         }
-
         return $errors;
         
     }

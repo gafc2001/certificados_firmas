@@ -22,7 +22,7 @@ class CodeController{
 
     function saveCodes(){
         $id = $_SESSION['user_id'];
-        $sql = "INSERT INTO codes(user_id,certify_id,sign_code,is_used,created_at) " 
+        $sql = "INSERT INTO codes(profesor_id,certify_id,sign_code,is_used,created_at) " 
         ." VALUES(?,?,?,?,?)";
         $qty = $this->request['qty'];
         $certificate = $this->request['certificate'];
